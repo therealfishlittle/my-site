@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+<head></head>
+<style>
+body {
+  background: #0f172a;
+  color: white;
+  font-family: Arial;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+}
+
+li {
+  margin: 10px;
+  list-style: none;
+}
+</style>
+<style>
+body {
+  background-color: #111;
+  color: white;
+  font-family: sans-serif;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  margin-left: 5px;
+}
+
+li {
+  margin: 10px;
+}
+</style>
+<meta charset="UTF-8">
+<title>ToDo</title>
+</head>
+<body style="text-align:center; margin-top:50px;">
+
+<h1>ToDoリスト</h1>
+
+<input id="taskInput" placeholder="やること入力">
+<button onclick="addTask(); return false;">追加</button>
+
+<ul id="list"></ul>
+
+<script>
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const text = input.value;
+
+  if (text === "") return;
+
+  const li = document.createElement("li");
+  li.innerText = text;
+
+  // 完了チェック
+  li.addEventListener("click", function() {
+    if (li.style.textDecoration === "line-through") {
+      li.style.textDecoration = "none";
+    } else {
+      li.style.textDecoration = "line-through";
+    }
+  });
+
+  // 削除ボタン
+  const btn = document.createElement("button");
+  btn.innerText = "削除";
+  btn.onclick = function() {
+    li.remove();
+    saveData();
+  };
+
+  li.appendChild(btn);
+  document.getElementById("list").appendChild(li);
+
+  input.value = "";
+
+  saveData();
+}
+
+// 保存
+function saveData() {
+  localStorage.setItem("tasks", document.getElementById("list").innerHTML);
+}
+
+// 読み込み（ここ大事）
+window.onload = function() {
+  const saved = localStorage.getItem("tasks");
+  if (saved) {
+    document.getElementById("list").innerHTML = saved;
+  }
+};
+</script>
+
+</body>
+</html>
